@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 //import logo from './logo.svg';
 //import './App.css';
 
@@ -16,6 +17,13 @@ function getGreeting(user){
   return `Hello ${(user) ? formatName(user) : "Stranger"}`;
 };
 
+function tick(){
+  const tock = <p>It's {new Date().toLocaleTimeString()}</p>;
+  ReactDOM.render(tock, document.getElementById('clock'))
+}
+
+setInterval(tick, 1000);
+
 function App() {
   return (
   <div>
@@ -24,6 +32,7 @@ function App() {
     <img src={user.url} alt={formatName(user)} width="200" />
     <figcaption>{formatName(user)}</figcaption>
   </figure>
+  <div id="clock"></div>
   </div>
   );
 }
