@@ -1,7 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-//import logo from './logo.svg';
-//import './App.css';
 
 const user = {
   firstName: "Tony",
@@ -13,9 +11,18 @@ function formatName(user){
   return `${user.firstName} ${user.lastName}`; 
 }
 
-function getGreeting(user){
-  return `Hello ${(user) ? formatName(user) : "Stranger"}`;
-};
+function Welcome(props){
+  return <h1>Welcome, {(props.name) ? props.name : "Stranger"}</h1>;
+}
+
+function Avatar(props){
+  return (
+    <figure>
+      <img src={props.user.url} alt={formatName(props.user)} width="200" />
+      <figcaption>{formatName(user)}</figcaption>
+    </figure>
+  );
+}
 
 function tick(){
   const tock = <p>It's {new Date().toLocaleTimeString()}</p>;
@@ -26,14 +33,12 @@ setInterval(tick, 1000);
 
 function App() {
   return (
-  <div>
-  <h1>{getGreeting()}</h1>
-  <figure>
-    <img src={user.url} alt={formatName(user)} width="200" />
-    <figcaption>{formatName(user)}</figcaption>
-  </figure>
+  <>
+  {/* <Welcome name={user.firstName} /> */}
+  <Welcome />
+  <Avatar user={user} />
   <div id="clock"></div>
-  </div>
+  </>
   );
 }
 
