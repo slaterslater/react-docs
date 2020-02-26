@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const user = {
+const tony = {
   firstName: "Tony",
   lastName: "Baloney",
   url: "https://farm4.static.flickr.com/3237/3069961268_0403db41fa_b.jpg"
@@ -12,14 +12,14 @@ function formatName(user){
 }
 
 function Welcome(props){
-  return <h1>Welcome, {(props.name) ? props.name : "Stranger"}</h1>;
+  return <h1> {(props.name) ? `Hi, ${props.name}` : `Welcome, Stranger`}</h1>;
 }
 
 function Avatar(props){
   return (
     <figure>
       <img src={props.user.url} alt={formatName(props.user)} width="200" />
-      <figcaption>{formatName(user)}</figcaption>
+      <figcaption>{formatName(props.user)}</figcaption>
     </figure>
   );
 }
@@ -102,14 +102,78 @@ class Counter extends React.Component {
   }
 }
 
+// 7. Conditional Rendering
+function GuestGreeting(){
+  return <p>Please sign in</p>;
+}
+  
+function UserGreeting(){
+  return <p>You're back</p>;
+}
+
+function Greeting(props){
+  return (props.isLoggedIn) ? <UserGreeting /> : <GuestGreeting />;
+}
+
+function LoginButton(props){
+  return <button onClick={props.onClick}>Login</button>;
+}
+
+function LogoutButton(props){
+  return <button onClick={props.onClick}>Logout</button>;
+}
+
+class LoginControl extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      userName: null,
+      isLoggedIn:false
+    };
+    this.handleLoginClick = this.handleLoginClick.bind(this);
+    this.handleLogoutClick = this.handleLogoutClick.bind(this);
+  }
+
+  handleLoginClick(){
+    this.setState({
+      userName:tony.firstName,
+      isLoggedIn:true
+    });
+  }
+  
+  handleLogoutClick(){
+    this.setState({
+      userName:null,
+      isLoggedIn:false
+    });
+  }
+  
+  render(){
+    let button;
+    if(this.state.isLoggedIn){
+      button = <LogoutButton onClick={this.handleLogoutClick} />
+    } else {
+      button = <LoginButton onClick={this.handleLoginClick} />
+    }
+    return(
+      <>
+        <Welcome name={this.state.userName} />
+        <Greeting isLoggedIn={this.state.isLoggedIn} />
+        {button}
+      </>
+    );
+  }
+} // LoginControl
+
 function App() {
   return (
   <>
-  <Welcome name="" />
-  <Clock />
-  <Toggle />
-  <Counter increment={1} />
-  <Avatar user={user} />
+    
+    <LoginControl />
+    <Clock />
+    <Toggle />
+    <Counter increment={1} />
+    <Avatar user={tony} />
   </>
   );
 }
