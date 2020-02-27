@@ -1,24 +1,17 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-
-const tony = {
-  firstName: "Tony",
-  lastName: "Baloney",
-  url: "https://farm4.static.flickr.com/3237/3069961268_0403db41fa_b.jpg"
-};
 
 function formatName(user){
   return `${user.firstName} ${user.lastName}`; 
 }
 
 function Welcome(props){
-  return <h1> {(props.name) ? `Hi, ${props.name}` : `Welcome, Stranger`}</h1>;
+  return <h1> {(props.name) ? `Hi, ${props.name}` : `...`}</h1>;
 }
 
 function Avatar(props){
   return (
     <figure>
-      <img src={props.user.url} alt={formatName(props.user)} width="200" />
+      <img src={props.user.url} alt={formatName(props.user)} width="125" />
       <figcaption>{formatName(props.user)}</figcaption>
     </figure>
   );
@@ -165,15 +158,70 @@ class LoginControl extends React.Component{
   }
 } // LoginControl
 
+// 8. Lists and Keys
+function ListItem(props){
+  return <li>{props.value}</li>;
+}
+
+function NumberList(props){
+  let listItems = props.numbers.map((number)=>
+    <ListItem key={number.toString()} value={number} />
+  ); 
+  return(
+    <ul>{listItems}</ul>  
+  );
+}
+
+// need to map props into sidebar ul and content div with heading and paragraph
+function Blog(props){
+  return (
+    <div class="row">
+      <h2>Blog Component</h2>
+      <div class="col-md-4">
+        <ul>
+          {props.posts.map((post)=>
+            <li key={post.id}>{post.title}</li>
+          )}
+        </ul>  
+      </div>
+      <div class="col-md-8">
+        {props.posts.map((post)=>
+          <div key={post.id}>
+            <h3>{post.title}</h3>
+            <p>{post.content}</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// Dummy Data
+const tony = {
+  firstName: "Tony",
+  lastName: "Baloney",
+  url: "https://farm4.static.flickr.com/3237/3069961268_0403db41fa_b.jpg"
+};
+
+const numArray = [1,2,3,4,5];
+
+const posts = [
+  {id:1, title:"What is Lorem Ipsum?", content:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."},
+  {id:2, title:"Why do we use it?", content:"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \"Content here, content here\", making it look like readable English."},
+  {id:3, title:"Where does it come from?", content:"Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old."}
+];
+
+// The App
 function App() {
   return (
   <>
-    
     <LoginControl />
     <Clock />
     <Toggle />
-    <Counter increment={1} />
+    <Counter increment={2} />
     <Avatar user={tony} />
+    <NumberList numbers={numArray} />
+    <Blog posts={posts} />
   </>
   );
 }
