@@ -172,7 +172,6 @@ function NumberList(props){
   );
 }
 
-// need to map props into sidebar ul and content div with heading and paragraph
 function Blog(props){
   return (
     <div class="row">
@@ -195,6 +194,46 @@ function Blog(props){
     </div>
   );
 }
+
+// 9. Forms
+class NameForm extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      firstName: '',
+      lastName: ''
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event){
+    this.setState({[event.target.name]: event.target.value})
+  }
+
+  handleSubmit(event){
+    let firstName = this.state.firstName.trim();
+    let lastName = this.state.lastName.trim();
+    alert(`Submitting name: ${firstName} ${lastName}`);
+    event.preventDefault();
+    this.setState({
+      firstName: '',
+      lastName: ''
+    });
+  }
+
+  render(){
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>FirstName</label>
+        <input type="text" name="firstName" value={this.state.firstName} onChange={this.handleChange} />
+        <label>LastName</label>
+        <input type="text" name="lastName" value={this.state.lastName} onChange={this.handleChange} />
+        <input type="submit" value="submit" />       
+      </form>
+    );
+  }
+} // NameForm
 
 // Dummy Data
 const tony = {
@@ -222,6 +261,7 @@ function App() {
     <Avatar user={tony} />
     <NumberList numbers={numArray} />
     <Blog posts={posts} />
+    <NameForm />
   </>
   );
 }
