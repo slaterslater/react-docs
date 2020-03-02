@@ -274,6 +274,43 @@ class TempCalculator extends React.Component {
   }
 }
 
+// 11. Composition vs Inheritance
+function Dialog(props){
+  return(
+    <div class="row">
+      <h2>{props.title}</h2>
+      <p>{props.message}</p>
+      {props.children}
+    </div>
+  );
+}
+
+class SignUpDialog extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {login:''};
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event){
+    this.setState({login: event.target.value});
+  }
+
+  handleSubmit(event){
+    alert(`Look, ${this.state.login.toLocaleUpperCase()}, everyone likes pizza`);
+  }
+
+  render(){
+    return(
+      <Dialog title="Do you like pizza?" message="What's your name?">
+        <input value={this.state.login} onChange={this.handleChange} />
+        <button onClick={this.handleSubmit}>Sign me up!</button>        
+      </Dialog>
+    );
+  }
+}
+
 // Dummy Data
 const tony = {
   firstName: "Tony",
@@ -302,6 +339,7 @@ function App() {
     <Blog posts={posts} />
     <NameForm />
     <TempCalculator />
+    <SignUpDialog />
   </>
   );
 }
