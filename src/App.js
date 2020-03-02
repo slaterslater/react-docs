@@ -224,16 +224,55 @@ class NameForm extends React.Component {
 
   render(){
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>FirstName</label>
-        <input type="text" name="firstName" value={this.state.firstName} onChange={this.handleChange} />
-        <label>LastName</label>
-        <input type="text" name="lastName" value={this.state.lastName} onChange={this.handleChange} />
-        <input type="submit" value="submit" />       
-      </form>
+      <div class="row">
+        <form onSubmit={this.handleSubmit}>
+          <div class="col-md-4">
+            <label>FirstName</label>
+            <input type="text" name="firstName" value={this.state.firstName} onChange={this.handleChange} />
+          </div>
+          <div class="col-md-4">
+            <label>LastName</label>
+            <input type="text" name="lastName" value={this.state.lastName} onChange={this.handleChange} />
+          </div>
+          <div class="col-md-4">
+            <input type="submit" value="submit" />       
+          </div>
+        </form>
+      </div>
     );
   }
 } // NameForm
+
+// 10. Lifting State Up
+function BoilingVerdict(props){
+  let temp = parseFloat(props.celcius);
+  let verdict = (temp >= 100) ? ["Yes", ""] : ["No", "not"];
+  return <p>{(!isNaN(temp)) ? `${verdict[0]}, the water would ${verdict[1]} boil.`:`No temp entered`}</p>
+}
+
+class TempCalculator extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {temperature:''}
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event){
+    this.setState({temperature: event.target.value});
+  }
+
+  render(){
+    return (
+      <div class="row">
+        <fieldset class="col-md-4">
+          <legend>Enter Temperature in Celcius</legend>
+          <input type="text" value={this.state.temperature} onChange={this.handleChange} />
+          <BoilingVerdict celcius={this.state.temperature} />
+        </fieldset>
+      </div>
+    );  
+  }
+}
 
 // Dummy Data
 const tony = {
@@ -262,6 +301,7 @@ function App() {
     <NumberList numbers={numArray} />
     <Blog posts={posts} />
     <NameForm />
+    <TempCalculator />
   </>
   );
 }
